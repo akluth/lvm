@@ -1,6 +1,19 @@
-SRC_FILES = main.c vm.c
-CC_FLAGS = -Wall -Wextra -g -std=c11
+SRCS = $(shell find -name '*.c')
+OBJS = $(addsuffix .o,$(basename $(SRCS)))
+CFLAGS = -Wall -Wextra -g -std=c11
 CC = gcc
 
-all:
-	${CC} ${SRC_FILES} ${CC_FLAGS} -o tinivm
+TARGET = tinivm
+
+all: $(TARGET)
+
+$(TARGET): $(OBJS)
+	$(CC) -o $@ $^
+
+%.o: %.c
+	$(CC) $(CFLAGS) -c -o $@ $^
+
+clean:
+	rm $(OBJS)
+
+.PHONY: all clean
