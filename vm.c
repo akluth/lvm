@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include "vm.h"
+#include "instr.h"
 
 const int program[] = {
         PUSH, 1337,
@@ -45,11 +46,41 @@ void eval(int instr) {
 
 void initialize_vm(int stack_size) {
     stack = malloc(stack_size * sizeof(int));
+    printf("initialize vm with stack size of %i bytes\n", stack_size);
 }
 
-void run_vm() {
-    while (running) {
-        eval(fetch());
-        ip++;
+void run_vm(char *filename) {
+    FILE *fp;
+
+    fp = fopen(filename, "rb");
+    fseek(fp, 0, SEEK_SET);
+
+    int instr;
+    int value;
+
+    while (fread(&instr, INSTRUCTION_SIZE, INSTRUCTION_SIZE, fp) == 1 && running) {
+        switch (instr) {
+            case PUSH:
+                fread(&value, sizeof(char), VALUE_SIZE, fp);
+                printf("instr: 0x%x - push | value: %i\n", instr, value);
+                break;
+            case POP:
+                printf("instr: 0x%x - pop\n", instr);
+                break;
+            case HLT:
+                printf("instr: 0x%x - hlt\n", instr);
+                running = false;
+                break;
+            case NOP:
+                printf("instr: 0x%x - nop\n", instr);
+                break;
+            default:
+                printf("unknown instr: 0x%x\n", instr);
+                break;
+        }
     }
+//    while (running) {
+//        eval(fetch());
+//        ip++;
+//    }
 }
