@@ -1,3 +1,4 @@
 PUSH 1337
 POP
+NOP
 HLT
