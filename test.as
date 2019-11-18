@@ -1,0 +1,3 @@
+PUSH 1337
+POP
+HLT
