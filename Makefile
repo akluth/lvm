@@ -1,4 +1,4 @@
-SRC_FILES = main.c
+SRC_FILES = main.c vm.c
 CC_FLAGS = -Wall -Wextra -g -std=c11
 CC = gcc
 

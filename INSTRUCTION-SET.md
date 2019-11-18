@@ -10,10 +10,6 @@ egx
 ehx
 
 ## Instructions
-
-PUSH
-POP
-
 ```
 MOV  - move a value (hardcoded, variable or register) to register
 SET  - set register to a value (only hardcoded values)
