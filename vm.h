@@ -4,11 +4,12 @@
 #define STACK_SIZE 256
 
 typedef enum {
-    MOV,
-    SET,
-    PUSH,
-    POP,
-    HLT
+    NOP     = 0x00,
+    MOV     = 0x01,
+    SET     = 0x02,
+    PUSH    = 0x03,
+    POP     = 0x04,
+    HLT     = 0x05,
 } InstructionSet;
 
 typedef enum {
