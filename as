@@ -5,9 +5,10 @@ use Data::Dumper qw(Dumper);
 use Scalar::Util qw(looks_like_number);
 
 my %instructions = (
+    NOP  => 0x00,
     PUSH => 0x03,
     POP  => 0x04,
-    HLT  => 0x05
+    HLT  => 0x05,
 );
 
 open(my $in, '<', $ARGV[0]) or die "OPENING $ARGV[0]: $!\n";
