@@ -6,5 +6,5 @@ for file in as/*.as; do
   # shellcheck disable=SC2006
   out=$(basename "$file")
   out="${out%.*}"
-  ../as/as "$file" "$out"
+  ../as/as "$file" -o "bin/$out"
 done

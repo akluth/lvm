@@ -16,13 +16,13 @@ my %instructions = (
 );
 
 my $outfile;
-my $debug = 0;
+my $debug;
 GetOptions(
     "outfile=s" => \$outfile,
     "debug"     => \$debug
 );
 
-if (!$outfile) {
+if (!defined $outfile) {
     die "error: no input file\n";
 }
 
@@ -41,7 +41,7 @@ while (my $line = <$in>) {
     }
 
     my @tokens = split / /, $line;
-    print Dumper \@tokens if $debug;
+    print Dumper \@tokens if defined $debug;
 
     while (my $token = shift @tokens) {
         $token =~ s/,+$//;
