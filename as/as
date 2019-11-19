@@ -1,10 +1,10 @@
 #!/usr/bin/perl
 use strict;
 use warnings FATAL => 'all';
+use Getopt::Long;
 use List::Util qw(first);
 use Data::Dumper qw(Dumper);
 use Scalar::Util qw(looks_like_number);
-
 
 my %instructions = (
     NOP  => 0x00,
@@ -15,8 +15,19 @@ my %instructions = (
     MOV  => 0x06,
 );
 
+my $outfile;
+my $debug = 0;
+GetOptions(
+    "outfile=s" => \$outfile,
+    "debug"     => \$debug
+);
+
+if (!$outfile) {
+    die "error: no input file\n";
+}
+
 open(my $in, '<', $ARGV[0]) or die "OPENING $ARGV[0]: $!\n";
-open my $out, '>:raw', $ARGV[1] . ".tvm" or die;
+open my $out, '>:raw', $outfile or die;
 
 while (my $line = <$in>) {
     chomp $line;
@@ -30,8 +41,7 @@ while (my $line = <$in>) {
     }
 
     my @tokens = split / /, $line;
-
-    print Dumper \@tokens;
+    print Dumper \@tokens if $debug;
 
     while (my $token = shift @tokens) {
         $token =~ s/,+$//;
