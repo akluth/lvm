@@ -28,7 +28,6 @@ while (my $line = <$in>) {
         $token =~ s/,+$//;
         $token = uc $token;
 
-
         if (looks_like_number($token)) {
             print $out pack('i<', $token);
         } elsif (exists($instructions{$token})) {

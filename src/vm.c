@@ -16,23 +16,7 @@ void log_instr(char *instr, int value) {
 }
 
 void eval(int instr) {
-    switch (instr) {
-        case HLT:
-            log_instr("HLT", 0);
-            running = false;
-            break;
-        case PUSH: {
-            sp++;
-            stack[sp] = program[++ip];
-            log_instr("PUSH", program[ip]);
-            break;
-        }
-        case POP: {
-            int val_popped = stack[sp--];
-            log_instr("POP", val_popped);
-            break;
-        }
-    }
+
 }
 
 void initialize_vm(int stack_size) {
