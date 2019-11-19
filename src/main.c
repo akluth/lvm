@@ -24,7 +24,5 @@ int main(int argc, char *argv[]) {
     }
 
     initialize_vm(stack_size);
-    run_vm(filename);
-
-    return 0;
+    return run_vm(filename);
 }

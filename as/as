@@ -6,6 +6,13 @@ use List::Util qw(first);
 use Data::Dumper qw(Dumper);
 use Scalar::Util qw(looks_like_number);
 
+my %header = (
+    MAGIC   => 'bupi',
+    NULL    => 0x0,
+    VERSION => 0xC1,
+    PADDING => 0xFE
+);
+
 my %instructions = (
     NOP  => 0x00,
     SET  => 0x02,
@@ -13,6 +20,7 @@ my %instructions = (
     POP  => 0x04,
     HLT  => 0x05,
     MOV  => 0x06,
+    UFF  => 0xFF
 );
 
 my $outfile;
@@ -28,6 +36,11 @@ if (!defined $outfile) {
 
 open(my $in, '<', $ARGV[0]) or die "OPENING $ARGV[0]: $!\n";
 open my $out, '>:raw', $outfile or die;
+
+print $out pack('a4', $header{'MAGIC'});
+print $out pack('C', $header{'NULL'});
+print $out pack('C', $header{'VERSION'});
+print $out pack('C', $header{'PADDING'});
 
 while (my $line = <$in>) {
     chomp $line;
@@ -50,7 +63,7 @@ while (my $line = <$in>) {
         if (looks_like_number($token)) {
             print $out pack('i<', $token);
         } elsif (exists($instructions{$token})) {
-            print $out pack('h', $instructions{$token});
+            print $out pack('C', $instructions{$token});
         }
     }
 }
