@@ -1,14 +1,18 @@
 #!/usr/bin/perl
 use strict;
 use warnings FATAL => 'all';
+use List::Util qw(first);
 use Data::Dumper qw(Dumper);
 use Scalar::Util qw(looks_like_number);
 
+
 my %instructions = (
     NOP  => 0x00,
+    SET  => 0x02,
     PUSH => 0x03,
     POP  => 0x04,
     HLT  => 0x05,
+    MOV  => 0x06,
 );
 
 open(my $in, '<', $ARGV[0]) or die "OPENING $ARGV[0]: $!\n";
@@ -18,16 +22,19 @@ while (my $line = <$in>) {
     chomp $line;
     my @tokens = split / /, $line;
 
-    foreach (@tokens) {
-        print $_ . "\n";
-        if (looks_like_number($_)) {
-            print $out pack('i<', $_);
-        } else {
-            print $out pack('h', $instructions{$_});
+    print Dumper \@tokens;
+
+    while (my $token = shift @tokens) {
+        $token =~ s/,+$//;
+        $token = uc $token;
+
+
+        if (looks_like_number($token)) {
+            print $out pack('i<', $token);
+        } elsif (exists($instructions{$token})) {
+            print $out pack('h', $instructions{$token});
         }
     }
-
-    print Dumper \@tokens;
 }
 
 close $in;
