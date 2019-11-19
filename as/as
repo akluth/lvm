@@ -20,6 +20,15 @@ open my $out, '>:raw', $ARGV[1] . ".tvm" or die;
 
 while (my $line = <$in>) {
     chomp $line;
+
+    my $semicolon = index($line, ';');
+
+    if ($semicolon >= 1) {
+        $line = substr($line, 0, $semicolon);
+    } elsif ($semicolon == 0) {
+        next;
+    }
+
     my @tokens = split / /, $line;
 
     print Dumper \@tokens;
