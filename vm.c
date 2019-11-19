@@ -4,11 +4,6 @@
 #include "vm.h"
 #include "instr.h"
 
-const int program[] = {
-        PUSH, 1337,
-        POP,
-        HLT
-};
 
 int ip = 0;
 int sp = -1;
@@ -80,8 +75,4 @@ void run_vm(char *filename) {
 
         ip++;
     }
-//    while (running) {
-//        eval(fetch());
-//        ip++;
-//    }
 }
