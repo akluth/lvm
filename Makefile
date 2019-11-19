@@ -6,4 +6,7 @@ tinivm:
 test:
 	$(MAKE) -C test
 
-.PHONY: all tinivm test
+clean:
+	rm src/*.o
+
+.PHONY: all tinivm test clean
