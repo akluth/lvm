@@ -3,4 +3,7 @@ all: tinivm
 tinivm:
 	$(MAKE) -C src
 
-.PHONY: all tinivm
+test:
+	$(MAKE) -C test
+
+.PHONY: all tinivm test

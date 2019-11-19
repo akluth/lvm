@@ -2,6 +2,6 @@
 .idea/
 tinivm
 *.bin
+*.tvm
 *.o
-test
 _Deparsed_XSubs.pm

@@ -16,7 +16,7 @@ my %instructions = (
 );
 
 open(my $in, '<', $ARGV[0]) or die "OPENING $ARGV[0]: $!\n";
-open my $out, '>:raw', $ARGV[1] or die;
+open my $out, '>:raw', $ARGV[1] . ".tvm" or die;
 
 while (my $line = <$in>) {
     chomp $line;
