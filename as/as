@@ -46,7 +46,6 @@ while (my $line = <$in>) {
     chomp $line;
 
     my $semicolon = index($line, ';');
-
     if ($semicolon >= 1) {
         $line = substr($line, 0, $semicolon);
     } elsif ($semicolon == 0) {
@@ -55,15 +54,19 @@ while (my $line = <$in>) {
 
     my @tokens = split / /, $line;
     print Dumper \@tokens if defined $debug;
+    my $value_after_instruction = 0;
 
-    while (my $token = shift @tokens) {
-        $token =~ s/,+$//;
-        $token = uc $token;
+    foreach (@tokens) {
+        $_ =~ s/,+$//;
+        $_ = uc $_ unless looks_like_number($_);
 
-        if (looks_like_number($token)) {
-            print $out pack('i<', $token);
-        } elsif (exists($instructions{$token})) {
-            print $out pack('C', $instructions{$token});
+        #FIXME: Obviously, refactor value_after_instruction logic
+        if ($value_after_instruction && (looks_like_number($_) || $_ == 0)) {
+            print $out pack('I<', $_);
+            $value_after_instruction = 0;
+        } elsif (exists($instructions{$_})) {
+            $value_after_instruction = 1;
+            print $out pack('C', $instructions{$_});
         }
     }
 }

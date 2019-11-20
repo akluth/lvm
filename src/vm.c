@@ -59,7 +59,7 @@ int run_vm(char *filename) {
     while (fread(&instr, INSTRUCTION_SIZE, INSTRUCTION_SIZE, fp) == 1 && running) {
         switch (instr) {
             case PUSH:
-                fread(&value, sizeof(char), VALUE_SIZE, fp);
+                fread(&value, sizeof(int), 1, fp);
                 sp++;
                 stack[sp] = value;
                 printf("instr: 0x%x - push ; pushed value: %i\n", instr, value);
