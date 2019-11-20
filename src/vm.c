@@ -84,6 +84,7 @@ int run_vm(char *filename) {
                 break;
             default:
                 printf("unknown instr: 0x%x\n", instr);
+                return 255;
                 break;
         }
 
