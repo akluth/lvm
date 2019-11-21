@@ -56,17 +56,17 @@ while (my $line = <$in>) {
     print Dumper \@tokens if defined $debug;
     my $value_after_instruction = 0;
 
-    foreach (@tokens) {
-        $_ =~ s/,+$//;
-        $_ = uc $_ unless looks_like_number($_);
+    for my $i (0 .. $#tokens) {
+        $tokens[$i] =~ s/,+$//;
+        $tokens[$i] = uc $tokens[$i] unless looks_like_number($tokens[$i]);
 
         #FIXME: Obviously, refactor value_after_instruction logic
-        if ($value_after_instruction && (looks_like_number($_) || $_ == 0)) {
-            print $out pack('I<', $_);
+        if ($value_after_instruction && (looks_like_number($tokens[$i]) || $tokens[$i] == 0)) {
+            print $out pack('I<', $tokens[$i]);
             $value_after_instruction = 0;
-        } elsif (exists($instructions{$_})) {
+        } elsif (exists($instructions{$tokens[$i]})) {
             $value_after_instruction = 1;
-            print $out pack('C', $instructions{$_});
+            print $out pack('C', $instructions{$tokens[$i]});
         }
     }
 }
