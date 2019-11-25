@@ -1,4 +1,8 @@
 #!/usr/bin/perl
+#
+# This is the assembler for tinivm.
+# And yeah, it's buggy, it's not failure-proof.
+#
 use strict;
 use warnings FATAL => 'all';
 use Getopt::Long;
@@ -59,15 +63,17 @@ while (my $line = <$in>) {
     my @tokens = split / /, $line;
     print Dumper \@tokens if defined $debug;
     my $value_after_instruction = 0;
+    my $is_move_instr = 0;
 
     for my $i (0 .. $#tokens) {
         $tokens[$i] =~ s/,+$//;
         $tokens[$i] = uc $tokens[$i] unless looks_like_number($tokens[$i]);
 
-        #FIXME: Obviously, refactor value_after_instruction logic
-        if ($value_after_instruction && (looks_like_number($tokens[$i]) || $tokens[$i] == 0)) {
+        if ($value_after_instruction == 1 && (looks_like_number($tokens[$i]) || $tokens[$i] == 0)) {
             print $out pack('I<', $tokens[$i]);
             $value_after_instruction = 0;
+        } elsif ($is_move_instr == 1) {
+            print $out pack('I<', $tokens[++$i]);
         } elsif (exists($instructions{$tokens[$i]})) {
             if ($tokens[$i] eq 'MOV') {
                 $i++;
@@ -77,9 +83,8 @@ while (my $line = <$in>) {
                 my $mov = $tokens[$i];
                 if ($mov =~ 'EAX') {
                     print $out pack('C', $mov_instr{'MOVA'});
-                    print "Wrote MOVA\n";
                 }
-                $value_after_instruction = 1;
+                $is_move_instr = 1;
             } else {
                 print $out pack('C', $instructions{$tokens[$i]});
                 $value_after_instruction = 1;

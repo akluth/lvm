@@ -5,15 +5,22 @@
 #include "vm.h"
 #include "instr.h"
 
-
 int ip = 0;
 int sp = -1;
 
 int *stack;
+
+// global arrays/variables are always set to 0
+int registers[NUM_REGS];
+
 bool running = true;
 
 void log_instr(char *instr, int value) {
     printf("instr: %s, value: %i\n", instr, value);
+}
+
+void print_stack_dump() {
+    printf("\neax: 0x%08x\n", registers[EAX]);
 }
 
 void eval() {
@@ -62,22 +69,21 @@ int run_vm(char *filename) {
                 fread(&value, sizeof(int), 1, fp);
                 sp++;
                 stack[sp] = value;
-                printf("instr: 0x%x - push ; pushed value: %i\n", instr, value);
                 break;
             case POP: {
                 int val_popped = stack[sp--];
-                printf("instr: 0x%x - pop  ; popped value: %i\n", instr, val_popped);
                 break;
             }
             case HLT:
-                printf("instr: 0x%x - hlt\n", instr);
                 running = false;
                 break;
             case NOP:
-                printf("instr: 0x%x - nop\n", instr);
                 break;
             case MOV:
-                printf("instr: 0x%x - mov\n", instr);
+                break;
+            case MOVA:
+                fread(&value, sizeof(int), 1, fp);
+                registers[EAX] = value;
                 break;
             case UFF:
                 printf("caught debug instruction 0x%x\n", instr);
@@ -85,7 +91,6 @@ int run_vm(char *filename) {
             default:
                 printf("unknown instr: 0x%x\n", instr);
                 return 255;
-                break;
         }
 
         ip++;

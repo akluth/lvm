@@ -11,8 +11,10 @@ int main(int argc, char *argv[]) {
     int opt;
     unsigned int stack_size = STACK_SIZE;
     char *filename;
+    bool debug = false;
+    bool stack_dump = false;
 
-    while ((opt = getopt(argc, argv, "s:i:")) != -1) {
+    while ((opt = getopt(argc, argv, "s:i:dx")) != -1) {
         switch (opt) {
             case 's':
                 stack_size = atoi(optarg);
@@ -20,9 +22,21 @@ int main(int argc, char *argv[]) {
             case 'i':
                 filename = optarg;
                 break;
+            case 'd':
+                debug = true;
+                break;
+            case 'x':
+                stack_dump = true;
+                break;
         }
     }
 
     initialize_vm(stack_size);
-    return run_vm(filename);
+    int result = run_vm(filename);
+
+    if (stack_dump) {
+        print_stack_dump();
+    }
+
+    return result;
 }

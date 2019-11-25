@@ -17,16 +17,6 @@ typedef enum {
 } Version;
 
 typedef enum {
-    NOP     = 0x00,
-    SET     = 0x02,
-    PUSH    = 0x03,
-    POP     = 0x04,
-    HLT     = 0x05,
-    MOV     = 0x06,
-    UFF     = 0xff
-} InstructionSet;
-
-typedef enum {
     EAX,
     EBX,
     ECX,
@@ -38,6 +28,7 @@ typedef enum {
     NUM_REGS
 } Registers;
 
+void print_stack_dump();
 void initialize_vm(int);
 int run_vm();
 
