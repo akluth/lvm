@@ -23,6 +23,10 @@ my %instructions = (
     UFF  => 0xFF
 );
 
+my %mov_instr = (
+    MOVA => 0x6A
+);
+
 my $outfile;
 my $debug;
 GetOptions(
@@ -65,8 +69,21 @@ while (my $line = <$in>) {
             print $out pack('I<', $tokens[$i]);
             $value_after_instruction = 0;
         } elsif (exists($instructions{$tokens[$i]})) {
-            $value_after_instruction = 1;
-            print $out pack('C', $instructions{$tokens[$i]});
+            if ($tokens[$i] eq 'MOV') {
+                $i++;
+                $tokens[$i] =~ s/,+$//;
+                $tokens[$i] = uc $tokens[$i] unless looks_like_number($tokens[$i]);
+
+                my $mov = $tokens[$i];
+                if ($mov =~ 'EAX') {
+                    print $out pack('C', $mov_instr{'MOVA'});
+                    print "Wrote MOVA\n";
+                }
+                $value_after_instruction = 1;
+            } else {
+                print $out pack('C', $instructions{$tokens[$i]});
+                $value_after_instruction = 1;
+            }
         }
     }
 }
