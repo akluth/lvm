@@ -33,6 +33,7 @@ int main(int argc, char *argv[]) {
 
     initialize_vm(stack_size);
     int result = run_vm(filename);
+    halt_vm();
 
     if (stack_dump) {
         print_stack_dump();

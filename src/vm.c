@@ -108,3 +108,8 @@ int run_vm(char *filename) {
 
     return 0;
 }
+
+void halt_vm() {
+    running = false;
+    free(stack);
+}

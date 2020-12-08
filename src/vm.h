@@ -31,5 +31,6 @@ typedef enum {
 void print_stack_dump();
 void initialize_vm(int);
 int run_vm();
+void halt_vm();
 
 #endif //TINIVM_VM_H
