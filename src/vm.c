@@ -9,6 +9,7 @@ int ip = 0;
 int sp = -1;
 
 int *stack;
+signed int applied_stack_size;
 
 // global arrays/variables are always set to 0
 int registers[NUM_REGS];
@@ -20,7 +21,14 @@ void log_instr(char *instr, int value) {
 }
 
 void print_stack_dump() {
-    printf("\neax: 0x%08x\n", registers[EAX]);
+    printf("\neax: 0x%08x\tebx: 0x%08x\n", registers[EAX], registers[EBX]);
+    printf("ecx: 0x%08x\tedx: 0x%08x\n", registers[ECX], registers[EDX]);
+    printf("eex: 0x%08x\tefx: 0x%08x\n", registers[EEX], registers[EFX]);
+    printf("egx: 0x%08x\tehx: 0x%08x\n", registers[EGX], registers[EHX]);
+
+    printf("\nip:  0x%08x\tsp:  0x%08x\n", ip, sp);
+
+    printf("\nstack_size: \t0x%08x\n", applied_stack_size);
 }
 
 void eval() {
@@ -29,6 +37,8 @@ void eval() {
 
 void initialize_vm(int stack_size) {
     stack = malloc(stack_size * sizeof(int));
+    applied_stack_size = stack_size;
+
     printf("initialize vm with stack size of %i bytes\n", stack_size);
 }
 
