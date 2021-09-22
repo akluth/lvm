@@ -5,3 +5,5 @@ tinivm
 *.tvm
 *.o
 _Deparsed_XSubs.pm
+.vscode
+src/tinivm.exe
