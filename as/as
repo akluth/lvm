@@ -30,7 +30,8 @@ my %instructions = (
 );
 
 my %mov_instr = (
-    MOVA => 0x6A
+    MOVA => 0x6A,
+    MOVB => 0x6B
 );
 
 my $outfile;
@@ -76,7 +77,6 @@ while (my $line = <$in>) {
             $value_after_instruction = 0;
         } elsif ($is_move_instr == 1) {
             print $out pack('I<', $tokens[++$i]);
-            $i++;
             $is_move_instr = 0;
         } elsif (exists($instructions{$tokens[$i]})) {
             if ($tokens[$i] eq 'MOV') {
