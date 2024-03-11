@@ -12,6 +12,7 @@ typedef enum {
     HLT     = 0x05,
     MOV     = 0x06,
     MOVA    = 0x6a,
+    MOVB    = 0x6b,
     UFF     = 0xff
 } InstructionSet;
 

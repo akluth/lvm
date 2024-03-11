@@ -1,9 +1,10 @@
+test/bin/
 /cmake-build-debug/
 .idea/
-tinivm
+lauravm
 *.bin
 *.tvm
 *.o
 _Deparsed_XSubs.pm
 .vscode
-src/tinivm.exe
+src/lauravm.exe

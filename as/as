@@ -1,17 +1,17 @@
 #!/usr/bin/perl
 #
-# This is the assembler for tinivm.
+# This is the assembler for lauravm.
 # And yeah, it's buggy, it's not failure-proof.
 #
-use strict;
-use warnings FATAL => 'all';
+# use strict;
+# use warnings FATAL => 'all';
 use Getopt::Long;
 use List::Util qw(first);
 use Data::Dumper qw(Dumper);
 use Scalar::Util qw(looks_like_number);
 
 my %header = (
-    MAGIC   => 'bupi',
+    MAGIC   => 'laura',
     NULL    => 0x0,
     VERSION => 0xC1,
     PADDING => 0xFE
@@ -24,6 +24,8 @@ my %instructions = (
     POP  => 0x04,
     HLT  => 0x05,
     MOV  => 0x06,
+    MOVA => 0x6a,
+    MOVB => 0x6b,
     UFF  => 0xFF
 );
 
@@ -45,7 +47,7 @@ if (!defined $outfile) {
 open(my $in, '<', $ARGV[0]) or die "OPENING $ARGV[0]: $!\n";
 open my $out, '>:raw', $outfile or die;
 
-print $out pack('a4', $header{'MAGIC'});
+print $out pack('a5', $header{'MAGIC'});
 print $out pack('C', $header{'NULL'});
 print $out pack('C', $header{'VERSION'});
 print $out pack('C', $header{'PADDING'});
@@ -74,6 +76,8 @@ while (my $line = <$in>) {
             $value_after_instruction = 0;
         } elsif ($is_move_instr == 1) {
             print $out pack('I<', $tokens[++$i]);
+            $i++;
+            $is_move_instr = 0;
         } elsif (exists($instructions{$tokens[$i]})) {
             if ($tokens[$i] eq 'MOV') {
                 $i++;
@@ -83,6 +87,9 @@ while (my $line = <$in>) {
                 my $mov = $tokens[$i];
                 if ($mov =~ 'EAX') {
                     print $out pack('C', $mov_instr{'MOVA'});
+                }
+                if ($mov =~ 'EBX') {
+                    print $out pack('C', $mov_instr{'MOVB'});
                 }
                 $is_move_instr = 1;
             } else {

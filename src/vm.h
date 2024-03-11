@@ -3,10 +3,10 @@
 
 #define STACK_SIZE 256
 #define HEADER_LEN 7
-#define HEADER_MAGIC "bupi"
+#define HEADER_MAGIC "laura"
 
 struct __attribute__((__packed__)) file_header {
-    char magic[4];
+    char magic[5];
     unsigned char null_byte;
     unsigned char version;
     unsigned char padding;

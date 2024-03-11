@@ -8,5 +8,6 @@ unsigned int instructions[8] = {
         0x05,   // hlt      - halt system
         0x06,   // mov      - move a value (hardcoded, variable or register)
         0x6a,   // mov eax  - move value to eax register
+        0x6b,   // mov ebx  - move value to ebx register
         0xff    // uff      - debug instruction
 };

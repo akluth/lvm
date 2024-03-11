@@ -3,7 +3,7 @@ OBJS = $(addsuffix .o,$(basename $(SRCS)))
 CFLAGS = -Wall -Wextra -g -std=c11
 CC = gcc
 
-TARGET = tinivm
+TARGET = lauravm
 
 $(TARGET): $(OBJS)
 	$(CC) -o $@ $^

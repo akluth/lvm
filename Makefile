@@ -1,6 +1,6 @@
-all: tinivm
+all: lauravm
 
-tinivm:
+lauravm:
 	$(MAKE) -C src
 
 test:
@@ -9,4 +9,4 @@ test:
 clean:
 	rm src/*.o
 
-.PHONY: all tinivm test clean
+.PHONY: all lauravm test clean

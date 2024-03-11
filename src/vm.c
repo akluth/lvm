@@ -48,6 +48,7 @@ int run_vm(char *filename) {
     fseek(fp, 0, SEEK_SET);
 
     unsigned char instr;
+    unsigned char prev_instr;
     int value;
 
     struct file_header header;
@@ -95,12 +96,19 @@ int run_vm(char *filename) {
                 fread(&value, sizeof(int), 1, fp);
                 registers[EAX] = value;
                 break;
+            case MOVB:
+                fread(&value, sizeof(int), 1, fp);
+                registers[EBX] = value;
             case UFF:
                 printf("caught debug instruction 0x%x\n", instr);
                 break;
             default:
-                printf("unknown instr: 0x%x\n", instr);
+                printf("unknown instr:  0x%x, prev_instr was:  0x%x\n", instr, prev_instr);
                 return 255;
+        }
+
+        if (instr != NOP) {
+            prev_instr = instr;
         }
 
         ip++;

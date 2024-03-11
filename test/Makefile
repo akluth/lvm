@@ -3,6 +3,3 @@ test:
 	@sh compile.sh
 	@echo
 	@sh run.sh
-
-	@echo "\e[1;33mCleanup...\e[0m"
-	@rm bin/*
