@@ -1,4 +1,4 @@
-SRCS = $(shell find -name '*.c')
+SRCS = $(shell find . -name '*.c')
 OBJS = $(addsuffix .o,$(basename $(SRCS)))
 CFLAGS = -Wall -Wextra -g -std=c11
 CC = gcc

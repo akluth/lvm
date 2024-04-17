@@ -1,0 +1,24 @@
+description = "Dofile example"
+
+[tasks]
+
+    [tasks.build-src]
+    commands = [
+        './do -f src/Dofile'
+    ]
+    output = true
+    piped = true
+
+    [tasks.legacy-build]
+    commands = [
+        'make -C src'
+    ]
+    output = true
+    piped = true
+
+    [tasks.clean]
+    commands = [
+        'rm src/*.o'
+    ]
+    output = false
+    piped = true

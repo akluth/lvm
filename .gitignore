@@ -8,3 +8,5 @@ lauravm
 _Deparsed_XSubs.pm
 .vscode
 src/lauravm.exe
+*.swp
+do

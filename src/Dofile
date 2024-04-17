@@ -1,0 +1,11 @@
+description = "Dofile example"
+
+[tasks]
+
+    [tasks.build-lvm]
+    commands = [
+        ''
+    ]
+    output = true
+    piped = true
+
